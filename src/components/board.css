@@ -1,0 +1,36 @@
+.board-container {
+    width: 600px;
+    margin: 25px auto;
+}
+
+.board-square {
+    display: inline-block;
+    height: 75px;
+    width: 75px;
+    background-color: green;
+    border: 2px solid black;
+    margin-top: -5px;
+    position: relative;
+}
+
+.game-piece {
+    height: 80%;
+    width: 80%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px black;
+}
+
+.piece-0 {
+    display: none;
+}
+
+.piece-1 {
+    background-color: white;
+}
+
+.piece-2 {
+    background-color: black;
+}
