@@ -7,7 +7,7 @@ class Board extends Component {
     createSquare(info, loc){
         return (
             <div className="board-square" onClick={() => { this.handleClick(loc)}}>
-                <div className={`game-piece piece-${info.piece}`}></div>
+                <div className={`game-piece piece-${info ? info : 0}`}></div>
             </div>
         )
     }
@@ -17,7 +17,14 @@ class Board extends Component {
         this.props.place_piece(loc);
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log('nextProps.playable: ', nextProps.playable);
+    }
+
     render(){
+        if(!this.props.playable){
+            return <h1 className="text-center text-success">Game Over!</h1>;
+        }
         const boardHtml = this.props.board.map((row, rowNum) => {
             console.log('Row data:', row);
             const rowOfSq = []
@@ -40,8 +47,9 @@ class Board extends Component {
 
 function mapStateToProps(state){
     return {
-        board: state.game.board,
-        turn: state.game.turn
+        board: state.game.board.current,
+        turn: state.game.players.current,
+        playable: state.game.playable
     }
 }
 
