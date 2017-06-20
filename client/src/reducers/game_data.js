@@ -30,4 +30,4 @@ function build_board(size){
     return board;
 }
 
-export const BOARD = build_board(boardSize);
+// export const BOARD = build_board(boardSize);
