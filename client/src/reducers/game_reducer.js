@@ -9,9 +9,9 @@ export default function(state = DEFAULT_STATE, action){
         case PLACE_PIECE:
             // state.board[action.payload.r][action.payload.c].piece = state.turn;
             // console.log(state);
-            console.log(action.payload);
+            // console.log(action.payload);
             const result = state.place(state.players.current, action.payload.r, action.payload.c);
-            console.log(result);
+            console.log('place result: ', result);
             return { ...state};
         default:
             return state;

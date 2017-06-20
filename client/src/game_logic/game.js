@@ -37,7 +37,8 @@ const OthelloGame = function(players){
         return {
             playable: this.playable,
             player: this.players.current,
-            board: this.board.current
+            board: this.board.current,
+            tally: this.board.tally
         };
     };
 
@@ -83,11 +84,12 @@ const OthelloGame = function(players){
         do {
             newPlayer = this.players.next();
             if (this.board.hasValidPositions(newPlayer)){
+                result.state = this.state();
                 return result;
             }
         } while (newPlayer !== player);
         this._playable = false;
-        result.state.playable = this.playable;
+        result.state = this.state();
         result.events.push('game_finish');
         return result;
     };

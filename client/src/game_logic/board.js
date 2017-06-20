@@ -9,14 +9,34 @@ const OthelloBoard = function(players){
                     grid[i] = new Array(8);
                     grid[i].fill(null);
                 }
-                grid[3][4] = grid[4][3] = grid[4][4] = players[0];
-                grid[3][3] = players[1];
+                grid[3][4] = grid[4][3] = players[0];
+                grid[3][3] = grid[4][4] = players[1];
                 return grid;
             })(),
             enumerable: true,
             writable: false
+        },
+        tally: {
+            get: function(){
+                return this._tally();
+            }
         }
     });
+};
+
+OthelloBoard.prototype._tally = function(){
+    const tally = {};
+    for (let i = 0, iLen = this.current.length; i < iLen; i++){
+        for (let j = 0, jLen = this.current.length; j < iLen; j++){
+            const current = this.current[i][j];
+            if (tally.hasOwnProperty(current)){
+                tally[current]++;
+            } else {
+                tally[current] = 1;
+            }
+        }
+    }
+    return tally;
 };
 
 OthelloBoard.prototype.place = function(player, xPos, yPos){
