@@ -1,0 +1,23 @@
+.score-container {
+    margin: 5px auto;
+    font-size: 30px;
+    width: 600px;
+    text-align: center;
+}
+
+.inactive{
+    color: gray;
+}
+
+.active1 {
+    color: black;
+    padding: 10px;
+    border: 2px solid black;
+}
+
+.active2 {
+    color: white;
+    background-color: black;
+    padding: 10px;
+    border: 2px solid black;
+}
