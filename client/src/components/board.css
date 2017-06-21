@@ -1,14 +1,15 @@
 .board-container {
     width: 600px;
-    margin: 25px auto;
+    margin: 25px;
+    display: inline-block;
 }
 
 .board-square {
     display: inline-block;
     height: 75px;
     width: 75px;
-    background-color: green;
-    border: 2px solid black;
+    background-color: rgba(2, 2, 2, 0.8);
+    border: 2px solid #51ccda;
     margin-top: -5px;
     position: relative;
 }

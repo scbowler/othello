@@ -22,8 +22,11 @@ const ScoreBoard = (props) => {
 
     return (
         <div className="score-container">
-            <div className={ props.turn == '1' ? 'active1' : 'inactive' }>Player 1: {props.player1}</div>
-            <div className={ props.turn == '2' ? 'active2' : 'inactive' }>Player 2: {props.player2}</div>
+            <div>
+                <div className={ props.turn == '1' ? 'active1' : 'inactive' }>Player 1: {props.player1}</div>
+                <div className={ props.turn == '2' ? 'active2' : 'inactive' }>Player 2: {props.player2}</div>
+            </div>
+            <div className="chat-box"></div>
         </div>
     )
 }

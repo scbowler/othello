@@ -3,6 +3,8 @@
     font-size: 30px;
     width: 600px;
     text-align: center;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .inactive{
@@ -20,4 +22,10 @@
     background-color: black;
     padding: 10px;
     border: 2px solid black;
+}
+
+.chat-box {
+    background-color: black;
+    width: 600px;
+    height: 510px;
 }

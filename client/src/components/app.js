@@ -6,7 +6,7 @@ import ScoreBoard from './score_board';
 const App = () => (
     <div>
         <h1 className="text-center">Othello</h1>
-        <div>
+        <div className="container-fluid">
             <Board/>
             <ScoreBoard/>
         </div>
