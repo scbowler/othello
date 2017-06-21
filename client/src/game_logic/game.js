@@ -17,7 +17,7 @@ const OthelloGame = function(players){
         },
         playable: {
             get: function(){
-                return this._playable
+                return this._playable;
             },
             enumerable: true
         },
