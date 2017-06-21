@@ -26,6 +26,16 @@ const ScoreBoard = (props) => {
         border: '2px solid black'
     }
 
+    if(!props.playable){
+        let winner = 'Player 1 Wins!';
+        if(props.player1 < props.player2){
+            winner = 'Player 2 Wins!';
+        } else if(props.player1 === props.player2) {
+            winner = "It's a Tie!"
+        }
+        return <h1 className="text-center">{`${winner} ${props.player1} to ${props.player2}`}</h1>;
+    }
+
     return (
         <div style={scoreContainer}>
             <div style={ props.turn == '1' ? active1 : inactive }>Player 1: {props.player1}</div>
@@ -39,6 +49,7 @@ function mapStateToProps(state){
         player1: state.game.game.board.tally['1'],
         player2: state.game.game.board.tally['2'],
         turn: state.game.game.players.current,
+        playable: state.game.game.playable
     }
 }
 
