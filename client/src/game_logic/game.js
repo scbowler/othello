@@ -46,7 +46,10 @@ const OthelloGame = function(players){
 OthelloGame.prototype.state = function(){
     return {
         playable: this.playable,
-        player: this.players.current,
+        player: {
+            current: this.players.current,
+            winning: this.players.winning
+        },
         board: this.board.current,
         tally: this.board.tally
     };
@@ -93,6 +96,26 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
             result.events.push(events.board.place(attempt[i].loc, player));
         }
     }
+
+    // Update score and winning player
+    const tally = this.board.tally;
+    result.events.push(events.board.rescore(tally));
+    const oldWinner = this.players.winning;
+    if (oldWinner !== player){
+         if (oldWinner === null){
+             this.players.winning = player;
+             result.events.push(events.player.recalculateWinner(player, null));
+         } else {
+             if (tally[player] > tally[oldWinner]){
+                 this.players.winning = player;
+                 result.events.push(events.player.recalculateWinner(player, oldWinner));
+             } else if (tally[player] === tally[oldWinner]){
+                 this.players.winning = null;
+                 result.events.push(events.player.recalculateWinner(null, oldWinner));
+             }
+         }
+    }
+
     // Change player or finish game
 
     result.success = true;

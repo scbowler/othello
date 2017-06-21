@@ -36,12 +36,21 @@ const events = {
                     to: to
                 }
             };
+        },
+        recalculateWinner: function(toPlayer, fromPlayer){
+            return {
+                type: 'player_recalculate_winner',
+                payload: {
+                    to: toPlayer,
+                    from: fromPlayer
+                }
+            };
         }
     },
     board: {
         place: function(pos, player){
             return {
-                type: 'piece_place',
+                type: 'board_place',
                 payload: {
                     position: pos,
                     to: player
@@ -50,11 +59,19 @@ const events = {
         },
         flip: function(pos, toPlayer, fromPlayer){
             return {
-                type: 'piece_flip',
+                type: 'board_flip',
                 payload: {
                     position: pos,
                     to: toPlayer,
                     from: fromPlayer
+                }
+            };
+        },
+        rescore: function(score){
+            return {
+                type: 'board_rescore',
+                payload: {
+                    score: score
                 }
             };
         }
