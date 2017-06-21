@@ -47,9 +47,9 @@ class Board extends Component {
 
 function mapStateToProps(state){
     return {
-        board: state.game.board.current,
-        turn: state.game.players.current,
-        playable: state.game.playable
+        board: state.game.game.board.current,
+        turn: state.game.game.players.current,
+        playable: state.game.game.playable
     }
 }
 
