@@ -31,3 +31,13 @@
 .login > *{
     margin: 1em;
 }
+
+.signup{
+    text-align: center;
+    padding: 1em;
+    border: 1px double black;
+}
+
+.login > * {
+    margin: 1em;
+}
