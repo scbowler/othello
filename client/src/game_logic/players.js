@@ -16,6 +16,11 @@ const OthelloPlayers = function(playerNames){
             get: function(){
                 return this.names[this._current]
             }
+        },
+        winning: {
+            value: null,
+            enumerable: true,
+            writable: true
         }
     });
 };
