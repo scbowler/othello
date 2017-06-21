@@ -41,6 +41,15 @@ const OthelloGame = function(players){
             }
         }
     });
+    return {
+        success: true,
+        events: [events.game.start(this)],
+        state: this.state()
+    };
+};
+
+OthelloGame.prototype.newGame = function(){
+    return new OthelloGame(this.players.names);
 };
 
 OthelloGame.prototype.state = function(){
