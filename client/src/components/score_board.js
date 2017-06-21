@@ -6,7 +6,7 @@ const ScoreBoard = (props) => {
         margin: '5px auto',
         fontSize: '30px',
         width: '600px',
-        textAlign: 'center'
+        textAlign: 'left'
     }
 
     const inactive = {
@@ -39,7 +39,7 @@ const ScoreBoard = (props) => {
     return (
         <div style={scoreContainer}>
             <div style={ props.turn == '1' ? active1 : inactive }>Player 1: {props.player1}</div>
-            <div style={ props.turn == '2' ? active2 : inactive }>Player 2: {props.player2}</div>   
+            <div style={ props.turn == '2' ? active2 : inactive }>Player 2: {props.player2}</div>
         </div>
     )
 }
