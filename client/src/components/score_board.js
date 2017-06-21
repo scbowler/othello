@@ -1,24 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import './score_board.css';
 
 const ScoreBoard = (props) => {
-    const scoreContainer = {
-        margin: '5px auto',
-        fontSize: '30px',
-        width: '600px',
-        textAlign: 'left'
-    }
-
-    const inactive = {
-        color: 'gray'
-    }
-
-    const active1 = {
-        color: 'black',
-        padding: '10px',
-        border: '2px solid black'
-    }
-
     const active2 = {
         color: 'white',
         backgroundColor: 'black',
@@ -37,9 +21,9 @@ const ScoreBoard = (props) => {
     }
 
     return (
-        <div style={scoreContainer}>
-            <div style={ props.turn == '1' ? active1 : inactive }>Player 1: {props.player1}</div>
-            <div style={ props.turn == '2' ? active2 : inactive }>Player 2: {props.player2}</div>
+        <div className="score-container">
+            <div className={ props.turn == '1' ? 'active1' : 'inactive' }>Player 1: {props.player1}</div>
+            <div className={ props.turn == '2' ? 'active2' : 'inactive' }>Player 2: {props.player2}</div>
         </div>
     )
 }

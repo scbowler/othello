@@ -6,8 +6,10 @@ import ScoreBoard from './score_board';
 const App = () => (
     <div>
         <h1 className="text-center">Othello</h1>
-        <ScoreBoard/>
-        <Board/>
+        <div>
+            <Board/>
+            <ScoreBoard/>
+        </div>
     </div>
 );
 
