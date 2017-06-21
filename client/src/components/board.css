@@ -35,10 +35,18 @@
     transform: rotateY(180deg);
 }
 
+.piece-ghost-1 {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
 .piece-2 {
     background-color: black;
     animation-name: drop;
     transform: rotateY(0);
+}
+
+.piece-ghost-2 {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 @keyframes drop {
