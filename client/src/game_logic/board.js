@@ -39,6 +39,32 @@ OthelloBoard.prototype._tally = function(){
     return tally;
 };
 
+OthelloBoard.prototype.possible = function(player){
+    const possible = this._deepSlice(this.current);
+    for (let i = 0, iLen = this.current.length; i < iLen; i++){
+        for (let j = 0, jLen = this.current[i].length; j < jLen; j++){
+            if (possible[i][j] === null){
+                possible[i][j] = this._checkValidPosition(player, [i, j]);
+            }
+        }
+    }
+    return possible;
+};
+
+OthelloBoard.prototype._deepSlice = function(originalArray){
+    const newArray = [];
+    for (let i = 0, len = originalArray.length; i < len; i++){
+        if (!Array.isArray(originalArray[i])){
+            // Base case
+            newArray.push(originalArray[i]);
+        } else {
+            // Recursive case
+            newArray.push(this._deepSlice(originalArray[i]));
+        }
+    }
+    return newArray;
+};
+
 OthelloBoard.prototype.place = function(player, xPos, yPos){
     if (!this._checkValidPosition(player, [xPos, yPos])){
         return false;
