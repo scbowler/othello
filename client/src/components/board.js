@@ -5,9 +5,10 @@ import './board.css';
 
 class Board extends Component {
     createSquare(info, loc){
+        console.log('Info:', info === true);
         return (
             <div className="board-square" onClick={() => { this.handleClick(loc)}}>
-                <div className={`game-piece piece-${info ? info : 0}`}></div>
+                <div className={`game-piece piece-${info ? info === true ? 'ghost-' + this.props.turn : info : 0}`}></div>
             </div>
         )
     }
