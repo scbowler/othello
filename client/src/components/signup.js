@@ -67,7 +67,7 @@ class Signup extends Component {
                     placeholder="retype password"
                     value={this.state.form.verifyPw}
                     onChange={(event)=>this.handleInputChange(event, 'verifyPw')}/>
-                <button onSubmitk={(event)=>this.handleFormSubmit(event)}>SIGN UP DOOD</button>
+                <button onSubmit={(event)=>this.handleFormSubmit(event)}>SIGN UP DOOD</button>
             </form>
         )
     }
