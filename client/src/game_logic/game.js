@@ -2,6 +2,7 @@
 
 import Players from './players';
 import Board from './board';
+import events from './events';
 
 const OthelloGame = function(players){
     Object.defineProperties(this, {
@@ -85,7 +86,13 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
         result.errors = ['placement_invalid'];
         return result;
     }
-
+    for (let i = 0, len = attempt.length; i < len; i++){
+        if (attempt[i].prev !== null){
+            result.events.push(events.board.flip(attempt[i].loc, player, attempt[i].prev));
+        } else {
+            result.events.push(events.board.place(attempt[i].loc, player));
+        }
+    }
     // Change player or finish game
 
     result.success = true;
@@ -94,12 +101,15 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
         newPlayer = this.players.next();
         if (this._board.hasValidPositions(newPlayer)){
             result.state = this.state();
+            result.events.push(events.player.change(newPlayer, player));
             return result;
+        } else {
+            result.events.push(events.player.skip(newPlayer));
         }
     } while (newPlayer !== player);
     this._playable = false;
     result.state = this.state();
-    result.events.push('game_finish');
+    result.events.push(events.game.end('NYI'));
     return result;
 };
 
