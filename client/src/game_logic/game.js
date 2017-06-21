@@ -26,10 +26,18 @@ const OthelloGame = function(players){
             enumerable: true,
             writable: false
         },
-        board: {
+        _board: {
             value: new Board(players),
             enumerable: true,
             writable: false
+        },
+        board: {
+            get: function(){
+                return {
+                    current: this._board.current,
+                    tally: this._board.tally
+                };
+            }
         }
     });
 
@@ -66,12 +74,12 @@ const OthelloGame = function(players){
 
         // Test placement
 
-        if (!this.board.hasValidPositions(player)){
+        if (!this._board.hasValidPositions(player)){
             this._playable = false;
             result.errors = ['game_inactive'];
             return result;
         }
-        const attempt = this.board.place(player, placeX, placeY);
+        const attempt = this._board.place(player, placeX, placeY);
         if (!attempt){
             result.errors = ['placement_invalid'];
             return result;
@@ -83,7 +91,7 @@ const OthelloGame = function(players){
         let newPlayer = player;
         do {
             newPlayer = this.players.next();
-            if (this.board.hasValidPositions(newPlayer)){
+            if (this._board.hasValidPositions(newPlayer)){
                 result.state = this.state();
                 return result;
             }
