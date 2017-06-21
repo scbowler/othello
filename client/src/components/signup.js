@@ -50,7 +50,7 @@ class Signup extends Component {
     }
     render(){
         return(
-            <div className="signup">
+            <form className="signup">
                 <input type="text"
                     placeholder="username"
                     value={this.state.form.username}
@@ -67,8 +67,8 @@ class Signup extends Component {
                     placeholder="retype password"
                     value={this.state.form.verifyPw}
                     onChange={(event)=>this.handleInputChange(event, 'verifyPw')}/>
-                <button onClick={(event)=>this.handleFormSubmit(event)}>SIGN UP DOOD</button>
-            </div>
+                <button onSubmitk={(event)=>this.handleFormSubmit(event)}>SIGN UP DOOD</button>
+            </form>
         )
     }
 }
