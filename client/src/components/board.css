@@ -21,6 +21,8 @@
     left: 10%;
     border-radius: 50%;
     box-shadow: 1px 1px 3px black;
+    transition-duration: 500ms;
+    animation-duration: 300ms;
 }
 
 .piece-0 {
@@ -29,8 +31,17 @@
 
 .piece-1 {
     background-color: white;
+    animation-name: drop;
+    transform: rotateY(180deg);
 }
 
 .piece-2 {
     background-color: black;
+    animation-name: drop;
+    transform: rotateY(0);
+}
+
+@keyframes drop {
+    from {top: -10%}
+    to {top: 10%}
 }
