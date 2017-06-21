@@ -38,7 +38,6 @@ class Board extends Component {
         console.log('BoardHtml:', boardHtml);
         return (
             <div className="board-container">
-                <h3>Player {this.props.turn}'s Turn</h3>
                 {boardHtml}
             </div>
         )
@@ -48,8 +47,8 @@ class Board extends Component {
 function mapStateToProps(state){
     return {
         board: state.game.board.current,
+        playable: state.game.playable,
         turn: state.game.players.current,
-        playable: state.game.playable
     }
 }
 
