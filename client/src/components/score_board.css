@@ -1,7 +1,7 @@
 .score-container {
     margin: 5px auto;
     font-size: 30px;
-    width: 600px;
+    width: 25%;
     /*text-align: center;*/
     display: inline-block;
     vertical-align: top;
@@ -17,6 +17,7 @@
 .inactive{
     color: gray;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .active1 {
@@ -28,6 +29,7 @@
     -webkit-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
     -moz-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
     box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    box-sizing: border-box;
 }
 
 .active2 {
@@ -39,10 +41,5 @@
     -webkit-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
     -moz-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
     box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
-}
-
-.chat-box {
-    background-color: rgba(5, 14, 30, 0.8);
-    width: 600px;
-    height: 510px;
+    box-sizing: border-box;
 }

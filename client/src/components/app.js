@@ -11,8 +11,10 @@ const App = () => (
         <Signup/>
         <h1 className="text-center">Othello</h1>
         <div className="container-fluid">
-            <Board/>
-            <ScoreBoard/>
+            <div className="center">
+                <Board/>
+                <ScoreBoard/>
+            </div>
         </div>
     </div>
 );
