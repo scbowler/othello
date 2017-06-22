@@ -9,7 +9,7 @@ export function validateLogin(login){
         errorObj.password = "Invalid password";
     }
     
-    if (errorObj > 0){
+    if (Object.keys(errorObj).length > 0){
         return errorObj;
     }
 
@@ -21,7 +21,6 @@ export function validateLogin(login){
             return true; 
         }
     }
-    return errorObj;
 };
 
 export function validateSignup(signup){
@@ -29,16 +28,21 @@ export function validateSignup(signup){
     let { form } = signup.state;
     let errorObj = {};
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
     if (form.email.search(emailRegex) == -1){
         errorObj.email = "Please enter a valid email";
-    }
-    if (form.password !== form.verifyPw){
-        errorObj.password = "Passwords do not match";
     }
     if (form.username.length < 4){
         errorObj.username = "Please enter a username with 4 or more characters";
     }
-    if (errorObj > 0){
+    if (form.password.search(passwordRegex) == -1){
+        errorObj.passwordStrength = "Please enter a stronger password";
+    }
+    if (form.password !== form.verifyPw){
+        errorObj.passwordVerification = "Passwords do not match";
+    }
+    
+    if (Object.keys(errorObj).length > 0){
         return errorObj;
     }
 
