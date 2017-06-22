@@ -32,7 +32,7 @@ const OthelloBoard = function(players, boardConfig = []){
 };
 
 // Define Board public methods
-OthelloBoard.prototype.possible = function(player){
+OthelloBoard.prototype.boardWithPossibleMoves = function(player){
     const possible = this._deepSlice(this.current);
     for (let i = 0, iLen = this.current.length; i < iLen; i++){
         for (let j = 0, jLen = this.current[i].length; j < jLen; j++){
@@ -44,14 +44,14 @@ OthelloBoard.prototype.possible = function(player){
     return possible;
 };
 
-OthelloBoard.prototype.place = function(player, pos){
+OthelloBoard.prototype.placePiece = function(player, pos){
     if (!this._checkValidPosition(player, pos)){
         return false;
     }
-    return this._place(player, pos);
+    return this._placePiece(player, pos);
 };
 
-OthelloBoard.prototype.hasValidPositions = function(player){
+OthelloBoard.prototype.playerHasValidMoves = function(player){
     for (let i = 0, iLen = this.current.length; i < iLen; i++){
         for (let j = 0, jLen = this.current[i].length; j < jLen; j++){
             if (this._checkValidPosition(player, [i, j])){
@@ -157,7 +157,7 @@ OthelloBoard.prototype._getFlipped = function(player, start, direction){
     return [{loc: next, prev: this.current[next[0]][next[1]]}].concat(after);
 };
 
-OthelloBoard.prototype._place = function(player, placed){
+OthelloBoard.prototype._placePiece = function(player, placed){
     let gainedPieces = [{loc: placed, prev: null}];
 
     const directions = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];

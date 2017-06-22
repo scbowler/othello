@@ -48,7 +48,7 @@ const OthelloGame = function(players, config = {}){
             enumerable: true
         },
         players: {
-            value: new Players(players, config.player.current),
+            value: new Players(players, config.player),
             enumerable: true,
             writable: false
         },
@@ -60,7 +60,7 @@ const OthelloGame = function(players, config = {}){
         board: {
             get: function(){
                 return {
-                    current: this._board.possible(this.players.current),
+                    current: this._board.boardWithPossibleMoves(this.players.current),
                     tally: this._board.tally
                 };
             }
@@ -115,12 +115,12 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
 
     // Test placement
 
-    if (!this._board.hasValidPositions(player)){
+    if (!this._board.playerHasValidMoves(player)){
         this._playable = false;
         result.errors = ['game_inactive'];
         return result;
     }
-    const attempt = this._board.place(player, place);
+    const attempt = this._board.placePiece(player, place);
     if (!attempt){
         result.errors = ['placement_invalid'];
         return result;
@@ -158,7 +158,7 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
     let newPlayer = player;
     do {
         newPlayer = this.players.next();
-        if (this._board.hasValidPositions(newPlayer)){
+        if (this._board.playerHasValidMoves(newPlayer)){
             result.state = this.state();
             result.events.push(events.player.change(newPlayer, player));
             return result;
