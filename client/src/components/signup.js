@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createAccount, sendError } from '../actions';
+
+const hide = {
+    display: 'none'
+}
 
 class Signup extends Component {
     constructor(props){
         super(props);
-        this.state = {
+        this.defaultState = {
             form: {
                 username: '',
                 email: '',
                 password: '',
                 verifyPw: ''
             }
-        }
+        };
+
+        this.state = this.defaultState;
     }
 
     handleInputChange(changeEvent, inputType){
@@ -37,20 +45,28 @@ class Signup extends Component {
     }
 
     handleFormSubmit(formEvent){
+        formEvent.preventDefault();
         console.log(this.state.form);
-        this.setState({
-            form: {
-                username: '',
-                email: '',
-                password: '',
-                verifyPw: ''
-            }
-        });
-        console.log(this.state);
+        const { form } = this.state;
+        if(form.username === '' || form.email ==='' || form.password === '' || form.verifyPw === ''){
+            this.props.sendError('Form is not complete');
+            return
+        }
+
+        this.props.createAccount(this.state.form);
+        this.setState(this.defaultState);
+        
     }
+
+    cancelForm(){
+        this.props.sendError(null);
+        this.setState(this.defaultState);
+        this.props.onClick()
+    }
+
     render(){
         return(
-            <form className="signup">
+            <form onSubmit={(event)=>this.handleFormSubmit(event)} className="signup" style={this.props.hidden ? hide : {}}>
                 <input type="text"
                     placeholder="username"
                     value={this.state.form.username}
@@ -67,10 +83,11 @@ class Signup extends Component {
                     placeholder="retype password"
                     value={this.state.form.verifyPw}
                     onChange={(event)=>this.handleInputChange(event, 'verifyPw')}/>
-                <button onSubmit={(event)=>this.handleFormSubmit(event)}>SIGN UP DOOD</button>
+                <button>SIGN UP DOOD</button>
+                <button type="button" className="btn btn-danger" onClick={() => this.cancelForm()}>Cancel</button>
             </form>
         )
     }
 }
 
-export default Signup;
+export default connect(null, {createAccount, sendError})(Signup);

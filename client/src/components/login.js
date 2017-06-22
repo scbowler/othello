@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { login, sendError } from '../actions';
+
+const hide = {
+    display: 'none'
+}
 
 class Login extends Component {
     constructor (props){
@@ -27,18 +33,25 @@ class Login extends Component {
         this.setState({form: newFormState});
     }
     handleFormSubmit(formEvent){
+        formEvent.preventDefault();
         console.log(this.state.form);
+        const { form } = this.state;
+        if(form.email === '' || form.password === ''){
+            this.props.sendError('Missing Email or Password');
+            return;
+        }
+        this.props.sendError(null);
+        this.props.login(this.state.form);
         this.setState ({
             form: {
                 email: '',
                 password: '',
             }
         });
-        console.log(this.state);
     }
     render(){
         return (
-            <form className="login">
+            <form onSubmit={(event)=>this.handleFormSubmit(event)} className="login" style={this.props.hidden ? hide : {}}>
                 <input type="email"
                        placeholder="email"
                        value={this.state.form.email}
@@ -47,10 +60,10 @@ class Login extends Component {
                        placeholder="password"
                        value={this.state.form.password}
                        onChange={(event)=>this.handleInputChange(event, 'password')}/>
-                <button onSubmit={(event)=>this.handleFormSubmit(event)}>LOGIN</button>
+                <button>LOGIN</button>
             </form>
         )
     }
 }
 
-export default Login;
+export default connect(null, {login, sendError})(Login);

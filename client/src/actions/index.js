@@ -15,15 +15,22 @@ export function getGameList(snapshot){
     }
 }
 
+export function sendError(msg){
+    return {
+        type: types.AUTH_ERROR,
+        error: msg
+    }
+}
+
 export function createAccount(userInfo){
     return dispatch => {
         auth.createUserWithEmailAndPassword(userInfo.email, userInfo.password).then(resp => {
             console.log('Create User Resp:');
 
             resp.updateProfile({
-                displayName: userInfo.displayName
+                displayName: userInfo.username
             }).then(() => {
-                dispatch({type: types.LOG_IN, username: userInfo.displayName});
+                dispatch({type: types.LOG_IN, username: userInfo.username});
             }).catch((e) => {
                 console.warn('Error updating DisplayName:', e);
             })
