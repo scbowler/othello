@@ -1,3 +1,8 @@
+body {
+  font-family: 'Orbitron-Regular';
+  src: url(fonts/Orbitron/Orbitron-Regular.ttf);
+}
+
 .board-container {
     /*width: 600px;*/
     width: 46%;
