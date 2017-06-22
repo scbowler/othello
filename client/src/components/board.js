@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { place_piece } from '../actions/index';
+import ScoreBoard from './score_board';
+import { place_piece, updateGame } from '../actions';
+import { database } from '../firebase';
 import './board.css';
 
 class Board extends Component {
+    componentWillMount(){
+        console.log('Board CWM:', this.props.match.params.id);
+
+        database.ref('games/' + this.props.match.params.id).on('value', snap => {
+            this.props.updateGame(snap.val());
+        })
+    }
+    
     createSquare(info, loc){
         console.log('Info:', info === true);
         return (
@@ -38,8 +48,11 @@ class Board extends Component {
 
         console.log('BoardHtml:', boardHtml);
         return (
-            <div className="board-container">
-                {boardHtml}
+            <div>
+                <ScoreBoard/>
+                <div className="board-container">
+                    {boardHtml}
+                </div>
             </div>
         )
     }
@@ -47,10 +60,10 @@ class Board extends Component {
 
 function mapStateToProps(state){
     return {
-        board: state.game.game.board.current,
-        turn: state.game.game.players.current,
-        playable: state.game.game.playable
+        board: state.game.board,
+        turn: state.game.players.current,
+        playable: state.game.playable
     }
 }
 
-export default connect(mapStateToProps, {place_piece})(Board);
+export default connect(mapStateToProps, {place_piece, updateGame})(Board);

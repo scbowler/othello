@@ -1,5 +1,7 @@
 import types from './types';
-import { auth } from '../firebase';
+import Game from '../game_logic/game';
+import { auth, database } from '../firebase';
+const game = {}
 
 export function place_piece(loc){
     return {
@@ -12,6 +14,53 @@ export function getGameList(snapshot){
     return {
         type: types.GET_GAME_LIST,
         payload: snapshot
+    }
+}
+
+export function joinGame(game){
+    game.game = new Game([1, 2]);
+
+    
+}
+
+export function createGame(){
+    return dispatch => {
+        game.game = new Game([1, 2]);
+
+        const gameName = 'Test Game 1';
+
+        const { state: { board, playable, tally, player }} = game.game;
+        const newGame = { board, playable, tally, player, players: {} };
+        newGame.players[auth.currentUser.uid] = 1;
+
+        console.log('New Game:', newGame);
+
+        database.ref('games').push(newGame).then(resp => {
+            console.log('New game key:', resp.key);
+            const game_info = {
+                game_id: resp.key,
+                name: gameName,
+                num_players: 1,
+            }
+            database.ref('game_list').push(game_info).then(() => {
+                console.log('Game Created successful');
+                newGame.gid = resp.key;
+                newGame.you = 1;
+                dispatch({
+                    type: types.CREATE_GAME,
+                    payload: newGame
+                })
+            });
+        });
+    }
+}
+
+export function updateGame(game) {
+    console.log('Update game called:', game);
+
+    return {
+        type: types.UPDATE_GAME,
+        payload: game
     }
 }
 

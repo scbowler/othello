@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import * as actions from '../actions';
 import { auth } from '../firebase';
 import Login from './login';
@@ -22,8 +23,8 @@ class User extends Component {
         this.setState({hideReg});
     }
 
-    componentWillMount(){
-        auth.onAuthStateChanged((user) => {
+    componentDidMount(){
+        const user = auth.currentUser;
             console.log('Auth state change called');
             if(user && !this.props.auth){
                 console.log('User logged in', user.displayName);
@@ -33,7 +34,12 @@ class User extends Component {
             } else {
                 console.log('User all logged out');
             }
-        });
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.auth){
+            this.props.history.push('/lobby');
+        }
     }
 
     hideElement(hide){
@@ -79,4 +85,4 @@ function mstp(state){
     }
 }
 
-export default connect(mstp, actions)(User);
+export default withRouter(connect(mstp, actions)(User));
