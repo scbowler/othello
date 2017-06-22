@@ -1,6 +1,8 @@
 "use strict";
 
 const OthelloPlayers = function(playerNames, currentPlayer = playerNames[0]){
+
+    // Define Players properties
     Object.defineProperties(this, {
         names: {
             value: playerNames,
@@ -25,6 +27,7 @@ const OthelloPlayers = function(playerNames, currentPlayer = playerNames[0]){
     });
 };
 
+// Define Players public methods
 OthelloPlayers.prototype.next = function(){
     this._current++;
     while (this._current >= this.names.length){

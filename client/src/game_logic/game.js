@@ -5,8 +5,8 @@ import Board from './board';
 import events from './events';
 
 const OthelloGame = function(players, config = {}){
-    const boardSize = 8;
-    // Define game state
+
+    // Define Game state
     if (!config.hasOwnProperty('id') || !config.id ){
         config.id = '' + Math.floor(Math.random() * Math.pow(10, 10));
     }
@@ -19,6 +19,7 @@ const OthelloGame = function(players, config = {}){
     if (!config.player.hasOwnProperty('current') || players.indexOf(config.player.current) === -1 ){
         config.player.current = players[0];
     }
+    const boardSize = 8;
     if (!config.hasOwnProperty('board') || !Array.isArray(config.board) ){
         config.board = new Array(boardSize);
         for (let i = 0, len = config.board.length; i < len; i++){
@@ -28,6 +29,7 @@ const OthelloGame = function(players, config = {}){
         config.board[3][4] = config.board[4][3] = players[0];
         config.board[3][3] = config.board[4][4] = players[1];
     }
+    // Define Game properties
     Object.defineProperties(this, {
         id: {
             value: config.id,
@@ -71,6 +73,7 @@ const OthelloGame = function(players, config = {}){
     };
 };
 
+// Define Game public methods
 OthelloGame.prototype.newGame = function(){
     return new OthelloGame(this.players.names);
 };
@@ -168,6 +171,5 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
     result.events.push(events.game.end('NYI'));
     return result;
 };
-
 
 export default OthelloGame;

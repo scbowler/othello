@@ -1,7 +1,8 @@
 "use strict";
 
 const OthelloBoard = function(players, boardConfig = []){
-    // Define starting board state
+
+    // Define Board state
     const boardSize = 8;
     const boardInitial = new Array(boardSize);
     for (let i = 0; i < boardSize; i++){
@@ -14,6 +15,8 @@ const OthelloBoard = function(players, boardConfig = []){
             }
         }
     }
+
+    // Define Board properties
     Object.defineProperties(this, {
         current: {
             value: boardInitial,
@@ -28,21 +31,7 @@ const OthelloBoard = function(players, boardConfig = []){
     });
 };
 
-OthelloBoard.prototype._tally = function(){
-    const tally = {};
-    for (let i = 0, iLen = this.current.length; i < iLen; i++){
-        for (let j = 0, jLen = this.current.length; j < iLen; j++){
-            const current = this.current[i][j];
-            if (tally.hasOwnProperty(current)){
-                tally[current]++;
-            } else {
-                tally[current] = 1;
-            }
-        }
-    }
-    return tally;
-};
-
+// Define Board public methods
 OthelloBoard.prototype.possible = function(player){
     const possible = this._deepSlice(this.current);
     for (let i = 0, iLen = this.current.length; i < iLen; i++){
@@ -53,20 +42,6 @@ OthelloBoard.prototype.possible = function(player){
         }
     }
     return possible;
-};
-
-OthelloBoard.prototype._deepSlice = function(originalArray){
-    const newArray = [];
-    for (let i = 0, len = originalArray.length; i < len; i++){
-        if (!Array.isArray(originalArray[i])){
-            // Base case
-            newArray.push(originalArray[i]);
-        } else {
-            // Recursive case
-            newArray.push(this._deepSlice(originalArray[i]));
-        }
-    }
-    return newArray;
 };
 
 OthelloBoard.prototype.place = function(player, pos){
@@ -85,6 +60,36 @@ OthelloBoard.prototype.hasValidPositions = function(player){
         }
     }
     return false;
+};
+
+// Define Board private methods
+OthelloBoard.prototype._tally = function(){
+    const tally = {};
+    for (let i = 0, iLen = this.current.length; i < iLen; i++){
+        for (let j = 0, jLen = this.current.length; j < iLen; j++){
+            const current = this.current[i][j];
+            if (tally.hasOwnProperty(current)){
+                tally[current]++;
+            } else {
+                tally[current] = 1;
+            }
+        }
+    }
+    return tally;
+};
+
+OthelloBoard.prototype._deepSlice = function(originalArray){
+    const newArray = [];
+    for (let i = 0, len = originalArray.length; i < len; i++){
+        if (!Array.isArray(originalArray[i])){
+            // Base case
+            newArray.push(originalArray[i]);
+        } else {
+            // Recursive case
+            newArray.push(this._deepSlice(originalArray[i]));
+        }
+    }
+    return newArray;
 };
 
 OthelloBoard.prototype._checkValidPosition = function(player, pos){
@@ -133,7 +138,6 @@ OthelloBoard.prototype._isPlayer = function(player, pos){
 };
 
 OthelloBoard.prototype._getFlipped = function(player, start, direction){
-    const board = this.current;
     const next = [
         start[0] + direction[0],
         start[1] + direction[1]
