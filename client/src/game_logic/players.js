@@ -1,6 +1,6 @@
 "use strict";
 
-const OthelloPlayers = function(playerNames){
+const OthelloPlayers = function(playerNames, currentPlayer = playerNames[0]){
     Object.defineProperties(this, {
         names: {
             value: playerNames,
@@ -8,7 +8,7 @@ const OthelloPlayers = function(playerNames){
             enumerable: true
         },
         _current: {
-            value: 0,
+            value: playerNames.indexOf(currentPlayer),
             enumerable: false,
             writable: true
         },

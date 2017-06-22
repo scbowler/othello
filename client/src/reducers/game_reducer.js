@@ -2,7 +2,7 @@ import Game from '../game_logic/game';
 import types from '../actions/types'; 
 
 const DEFAULT_STATE = {
-    game: (new Game([1, 2])).events[0].payload.game
+    game: (new Game([1, 2], {})).events[0].payload.game
 };
 
 // const DEFAULT_STATE = {}
