@@ -1,18 +1,22 @@
 "use strict";
 
-const OthelloBoard = function(players){
+const OthelloBoard = function(players, boardConfig = []){
+    // Define starting board state
+    const boardSize = 8;
+    const boardInitial = new Array(boardSize);
+    for (let i = 0; i < boardSize; i++){
+        boardInitial[i] = new Array(boardSize);
+        for (let j = 0; j < boardSize; j++){
+            if (boardConfig.hasOwnProperty(i) && boardConfig[i].hasOwnProperty(j) && players.indexOf(boardConfig[i][j]) !== -1){
+                boardInitial[i][j] = boardConfig[i][j];
+            } else {
+                boardInitial[i][j] = null;
+            }
+        }
+    }
     Object.defineProperties(this, {
         current: {
-            value: (function(){
-                let grid = new Array(8);
-                for (let i = 0, len = grid.length; i < len; i++){
-                    grid[i] = new Array(8);
-                    grid[i].fill(null);
-                }
-                grid[3][4] = grid[4][3] = players[0];
-                grid[3][3] = grid[4][4] = players[1];
-                return grid;
-            })(),
+            value: boardInitial,
             enumerable: true,
             writable: false
         },
