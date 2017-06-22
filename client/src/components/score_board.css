@@ -5,6 +5,7 @@
     display: inline-block;
     vertical-align: top;
     background-color: rgba(5, 14, 30, 0.8);
+    text-align: left;
 }
 
 .score-container img{

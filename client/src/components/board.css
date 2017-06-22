@@ -34,27 +34,27 @@
 }
 
 .piece-1 {
-    background: url("images/player1.png");
-    background-size: contain;
+    background: url("images/player1.png") no-repeat;
+    background-size: cover;
     animation-name: drop;
     transform: rotateY(180deg);
 }
 
 .piece-ghost-1 {
-    background: url("images/ghost.png") rgba(255, 255, 255, 0.3);
-    background-size: contain;
+    background: url("images/ghost.png") rgba(255, 255, 255, 0.3) no-repeat;
+    background-size: cover;
 }
 
 .piece-2 {
-    background: url("images/player2.png");
-    background-size: contain;
+    background: url("images/player2.png") no-repeat;
+    background-size: cover;
     animation-name: drop;
     transform: rotateY(0);
 }
 
 .piece-ghost-2 {
-    background: url("images/ghost.png") rgba(0, 0, 0, 0.4);
-    background-size: contain;
+    background: url("images/ghost.png") rgba(0, 0, 0, 0.4) no-repeat;
+    background-size: cover;
 }
 
 @keyframes drop {
