@@ -7,6 +7,12 @@ h1{
     color: white;
 }
 
+.logo{
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
 .center{
     width: 95%;
     text-align: center;

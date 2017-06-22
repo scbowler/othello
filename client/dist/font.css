@@ -1,0 +1,7 @@
+@font-face {
+    font-family: orbitron;
+    src: url('font/Orbitron/Orbitron-Regular.ttf');
+}
+* {
+    font-family: orbitron, sans-serif;
+}
