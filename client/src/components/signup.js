@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { validateSignup } from '../helpers/validation';
+import { validateSignup } from './helpers/validation';
 
 class Signup extends Component {
     constructor(props){
@@ -51,7 +51,7 @@ class Signup extends Component {
     }
     render(){
         return(
-            <div className="signup">
+            <form className="signup">
                 <input type="text"
                     placeholder="username"
                     value={this.state.form.username}
@@ -68,8 +68,8 @@ class Signup extends Component {
                     placeholder="retype password"
                     value={this.state.form.verifyPw}
                     onChange={(event)=>this.handleInputChange(event, 'verifyPw')}/>
-                <button onClick={(event)=>this.handleFormSubmit(event)}>SIGN UP</button>
-            </div>
+                <button onSubmit={(event)=>this.handleFormSubmit(event)}>SIGN UP</button>
+            </form>
         )
     }
 }
