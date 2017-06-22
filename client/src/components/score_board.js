@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './score_board.css';
+import blueAlien from './images/player1.png';
+import greenAlien from './images/player2.png';
 
 const ScoreBoard = (props) => {
     const active2 = {
@@ -23,8 +25,8 @@ const ScoreBoard = (props) => {
     return (
         <div className="score-container">
             <div>
-                <div className={ props.turn == '1' ? 'active1' : 'inactive' }>Player 1: {props.player1}</div>
-                <div className={ props.turn == '2' ? 'active2' : 'inactive' }>Player 2: {props.player2}</div>
+                <div className={ props.turn == '1' ? 'active1' : 'inactive' }><img src={blueAlien}/>Player 1: {props.player1}</div>
+                <div className={ props.turn == '2' ? 'active2' : 'inactive' }><img src={greenAlien}/>Player 2: {props.player2}</div>
             </div>
             <div className="chat-box"></div>
         </div>
