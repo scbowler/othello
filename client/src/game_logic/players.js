@@ -1,6 +1,15 @@
 "use strict";
 
-const OthelloPlayers = function(playerNames, currentPlayer = playerNames[0]){
+const OthelloPlayers = function(playerNames, config = {}){
+
+    // Define Players state
+    if (!config.hasOwnProperty('current') || playerNames.indexOf(config.current) === -1){
+        config.current = playerNames[0]
+    }
+    if (!config.hasOwnProperty('winning') || playerNames.indexOf(config.winning === -1)){
+        config.winning = null;
+    }
+    // Define Players properties
     Object.defineProperties(this, {
         names: {
             value: playerNames,
@@ -8,7 +17,7 @@ const OthelloPlayers = function(playerNames, currentPlayer = playerNames[0]){
             enumerable: true
         },
         _current: {
-            value: playerNames.indexOf(currentPlayer),
+            value: playerNames.indexOf(config.current),
             enumerable: false,
             writable: true
         },
@@ -18,14 +27,15 @@ const OthelloPlayers = function(playerNames, currentPlayer = playerNames[0]){
             }
         },
         winning: {
-            value: null,
+            value: playerNames.indexOf(config.winning),
             enumerable: true,
             writable: true
         }
     });
 };
 
-OthelloPlayers.prototype.next = function(){
+// Define Players public methods
+OthelloPlayers.prototype.startNextTurn = function(){
     this._current++;
     while (this._current >= this.names.length){
         this._current -= this.names.length;
