@@ -69,11 +69,11 @@ OthelloBoard.prototype._deepSlice = function(originalArray){
     return newArray;
 };
 
-OthelloBoard.prototype.place = function(player, xPos, yPos){
-    if (!this._checkValidPosition(player, [xPos, yPos])){
+OthelloBoard.prototype.place = function(player, pos){
+    if (!this._checkValidPosition(player, pos)){
         return false;
     }
-    return this._place(player, xPos, yPos);
+    return this._place(player, pos);
 };
 
 OthelloBoard.prototype.hasValidPositions = function(player){
@@ -153,8 +153,7 @@ OthelloBoard.prototype._getFlipped = function(player, start, direction){
     return [{loc: next, prev: this.current[next[0]][next[1]]}].concat(after);
 };
 
-OthelloBoard.prototype._place = function(player, placedX, placedY){
-    const placed = [placedX, placedY];
+OthelloBoard.prototype._place = function(player, placed){
     let gainedPieces = [{loc: placed, prev: null}];
 
     const directions = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];

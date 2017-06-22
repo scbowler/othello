@@ -117,7 +117,7 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
         result.errors = ['game_inactive'];
         return result;
     }
-    const attempt = this._board.place(player, placeX, placeY);
+    const attempt = this._board.place(player, place);
     if (!attempt){
         result.errors = ['placement_invalid'];
         return result;
