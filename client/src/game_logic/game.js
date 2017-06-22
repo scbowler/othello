@@ -157,7 +157,7 @@ OthelloGame.prototype.place = function(player, placeX, placeY){
     result.success = true;
     let newPlayer = player;
     do {
-        newPlayer = this.players.next();
+        newPlayer = this.players.startNextTurn();
         if (this._board.playerHasValidMoves(newPlayer)){
             result.state = this.state();
             result.events.push(events.player.change(newPlayer, player));

@@ -35,7 +35,7 @@ const OthelloPlayers = function(playerNames, config = {}){
 };
 
 // Define Players public methods
-OthelloPlayers.prototype.next = function(){
+OthelloPlayers.prototype.startNextTurn = function(){
     this._current++;
     while (this._current >= this.names.length){
         this._current -= this.names.length;
