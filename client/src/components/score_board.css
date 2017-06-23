@@ -1,11 +1,49 @@
+
+/*.game-container {*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+/*}*/
+
+/*@media (min-width: 1100px) and (orientation: landscape){*/
+    /*.game-container {*/
+        /*flex-direction: row;*/
+    /*}*/
+/*}*/
+
+/*.board-container {*/
+    /*width: 80vw;*/
+    /*height: 80vw;*/
+    /*max-width: 68.58vh;*/
+    /*max-height: 68.58vh;*/
+    /*margin: 0 25px;*/
+/*}*/
+
 .score-container {
-    margin: 5px auto;
+    margin: 5px;
     font-size: 30px;
-    width: 25%;
-    display: inline-block;
-    vertical-align: top;
+    width: 520px;
     background-color: rgba(5, 14, 30, 0.8);
     text-align: left;
+}
+
+.player-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.player {
+    flex-basis: 100%;
+}
+
+@media (min-width: 1100px) and (orientation: landscape){
+    .score-container {
+        width: 260px;
+    }
+    .player-list {
+        flex-direction: column;
+    }
 }
 
 .score-container img{
