@@ -1,0 +1,42 @@
+.score-container {
+    margin: 5px auto;
+    font-size: 30px;
+    width: 25%;
+    display: inline-block;
+    vertical-align: top;
+    background-color: rgba(5, 14, 30, 0.8);
+    text-align: left;
+}
+
+.score-container img{
+    display: inline-block;
+    height: 3rem;
+    margin-right: 3%;
+}
+
+.inactive{
+    color: gray;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.active1 {
+    color: white;
+    padding: 10px;
+    border: 2px solid black;
+    border: 4px solid #51ccda;
+    -webkit-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    -moz-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    box-sizing: border-box;
+}
+
+.active2 {
+    color: white;
+    padding: 10px;
+    border: 4px solid #51ccda;
+    -webkit-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    -moz-box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    box-shadow: -4px -1px 49px 18px rgba(81,204,218,0.59);
+    box-sizing: border-box;
+}
