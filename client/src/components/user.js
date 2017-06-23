@@ -25,14 +25,10 @@ class User extends Component {
 
     componentDidMount(){
         auth.onAuthStateChanged((user) => {
-            console.log('Auth state change called', this.props.location);
             if(user && !this.props.auth){
-                console.log('User logged in', user.displayName);
                 this.props.login(user);
             } else if(!user && this.props.auth){
                 console.warn('No user but props.auth == true');
-            } else {
-                console.log('User all logged out');
             }
         })
     }

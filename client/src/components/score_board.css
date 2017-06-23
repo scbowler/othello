@@ -28,6 +28,10 @@
     text-align: left;
 }
 
+.score-container h2 {
+    color: #378881;
+}
+
 .player-list {
     display: flex;
     flex-direction: row;

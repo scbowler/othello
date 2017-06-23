@@ -24,6 +24,7 @@ const ScoreBoard = (props) => {
 
     return (
         <div className="score-container">
+            <h2 className="text-center">{props.name}</h2>
             <div className="player-list">
                 <div className={ `player ${props.turn == '1' ? 'active1' : 'inactive'}` }><img src={blueAlien}/>Player 1: {props.player1}</div>
                 <div className={ `player ${props.turn == '2' ? 'active2' : 'inactive'}` }><img src={greenAlien}/>Player 2: {props.player2}</div>
@@ -37,7 +38,8 @@ function mapStateToProps(state){
         player1: state.game.gameState.tally['1'],
         player2: state.game.gameState.tally['2'],
         turn: state.game.gameState.player.current,
-        playable: state.game.gameState.playable
+        playable: state.game.gameState.playable,
+        name: state.game.name
     }
 }
 

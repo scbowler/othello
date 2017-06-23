@@ -4,18 +4,12 @@ import { auth, database } from '../firebase';
 
 export function place_piece(loc, state, status, you){
     return dispatch => {
-        console.log('loc:', loc);
-        console.log('game:', state);
-        console.log('status:', status);
-        console.log('You:', you);
+        
         if(state.playable && state.player.current === you){
-            console.log('Valid move');
             const game = new Game([1, 2], state);
             const gameEvent = game.events[0].payload.game;
 
             gameEvent.place(you, loc.r, loc.c);
-
-            console.log('Game after move:', gameEvent);
 
             const gameState = {
                 player: {current: gameEvent.players.current},
@@ -24,24 +18,12 @@ export function place_piece(loc, state, status, you){
                 tally: gameEvent.board.tally,
                 id: state.id
             }
-
             database.ref(`games/${state.id}/state`).set(gameState);
-
-            console.log('New State:', gameState);
-
-            // dispatch({
-            //     type: types.PLACE_PIECE,
-            //     gameState
-            // });
-            return
+            return;
 
         } else {
-            console.log('Invalid move');
+            console.warn('Invalid move');
         }
-
-        dispatch({
-            type: 'idk'
-        })
     }
 }
 
@@ -53,7 +35,7 @@ export function getGameList(snapshot){
 }
 
 export function updateGame(game) {
-    console.log('updateGame snap:', game);
+
     return dispatch => {
         const gameState = game.state;
         
@@ -67,7 +49,7 @@ export function updateGame(game) {
 }
 
 export function joinGame(game, info_key){
-    console.log('joinGame snap:', game);
+    
     return dispatch => {
         const { uid } = auth.currentUser;
         const { players, state: { id } } = game;
@@ -75,7 +57,6 @@ export function joinGame(game, info_key){
 
         if(playerIds.length < 2){
             if(playerIds.indexOf(uid) === -1){
-                console.log('Player not in game');
                 
                 const playersUpdate = {};
                 playersUpdate[`games/${id}/players/${uid}`] = 2;
@@ -93,8 +74,7 @@ export function joinGame(game, info_key){
                     return;
                 })
             } else {
-                console.log('Player already in game');
-
+                console.warn('Player already in game');
             }
         } else {
             console.log('Game full');
@@ -111,39 +91,28 @@ export function joinGame(game, info_key){
                 return;
             }
         }
-
         return {
             type: 'idk'
         }
     }
 }
 
-export function createGame(){
+export function createGame(name){
     return dispatch => {
         const game = new Game([1, 2], {});
-
-        console.log('New game Orig object', game);
-
-        const gameName = 'Test Game 1';
-
         const { state } = game;
-        const newGame = { state, players: {} };
-        newGame.players[auth.currentUser.uid] = 1;
-
-
-        console.log('New Game for FB:', newGame);
-
+        const newGame = { state, players: {}, name };
         const { id } = newGame.state;
 
+        newGame.players[auth.currentUser.uid] = 1;
+
         database.ref('games/' + id).set(newGame).then(() => {
-            console.log('New game key:', id);
             const game_info = {
                 game_id: id,
-                name: gameName,
                 num_players: 1,
+                name
             }
             database.ref('game_list').push(game_info).then(() => {
-                console.log('Game Created successful');
                 newGame.gid = id;
                 newGame.you = 1;
                 dispatch({
@@ -165,7 +134,6 @@ export function sendError(msg){
 export function createAccount(userInfo){
     return dispatch => {
         auth.createUserWithEmailAndPassword(userInfo.email, userInfo.password).then(resp => {
-            console.log('Create User Resp:');
 
             resp.updateProfile({
                 displayName: userInfo.username
@@ -177,7 +145,6 @@ export function createAccount(userInfo){
 
         }).catch(error => {
             console.warn('There was an error creating account:', error.message, error.code);
-            // auth/email-already-in-use
             dispatch({
                 type: types.AUTH_ERROR,
                 error: 'Error creating user'
@@ -187,9 +154,6 @@ export function createAccount(userInfo){
 }
 
 export function login({displayName, email, password}){
-    console.log('Email', email);
-    console.log('Password', password);
-    console.log('Username', displayName);
 
     return function(dispatch){
         const error = {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import ScoreBoard from './score_board';
 import * as actions from '../actions';
 import { auth, database } from '../firebase';
@@ -7,21 +8,12 @@ import './board.css';
 
 class Board extends Component {
     componentWillMount(){
-        console.log('Board CWM:', this.props.match.params.id);
         database.ref('games/' + this.props.match.params.id).on('value', snap => {
-            console.log('Game CWM in Board:', this.props.gid);
-            if(this.props.gid){
-                console.log('UpdateGame Being Called');
-                this.props.updateGame(snap.val());
-            } else {
-                console.log('JoinGame Being Called');
-                this.props.joinGame(snap.val());
-            }
-        })
+            this.props.gid ? this.props.updateGame(snap.val()) : this.props.joinGame(snap.val());
+        });
     }
     
     createSquare(info, loc){
-        console.log('Info:', info);
         return (
             <div className="board-square" onClick={() => { this.handleClick(loc)}}>
                 <div className={`game-piece piece-${info ? info === true ? 'ghost-' + this.props.game.player.current : info : 0}`}></div>
@@ -30,13 +22,11 @@ class Board extends Component {
     }
 
     handleClick(loc){
-        console.log('Game square clicked:', loc);
         const { game, status, you} = this.props;
         this.props.place_piece(loc, game, status, you);
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('nextProps.game.playable: ', nextProps.game.playable);
         if(nextProps.user && !nextProps.user.auth){
             this.props.history.push('/');
         }
@@ -55,7 +45,6 @@ class Board extends Component {
             return rowOfSq;
         });
 
-        console.log('BoardHtml:', boardHtml);
         return (
             <div className="game-container">
                 <div className="board-container">
@@ -76,4 +65,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, actions)(Board);
+export default withRouter(connect(mapStateToProps, actions)(Board));
