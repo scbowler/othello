@@ -43,7 +43,7 @@ class Board extends Component {
             return <h1 className="text-center text-success">Game Over!</h1>;
         }
         const boardHtml = this.props.game.board.map((row, rowNum) => {
-            const rowOfSq = []
+            const rowOfSq = [];
             row.map((sq, colNum) => {
                 rowOfSq.push(this.createSquare(sq, {r: rowNum, c: colNum}));
             });
@@ -53,7 +53,7 @@ class Board extends Component {
 
         console.log('BoardHtml:', boardHtml);
         return (
-            <div>
+            <div className="game-container">
                 <div className="board-container">
                     {boardHtml}
                 </div>
