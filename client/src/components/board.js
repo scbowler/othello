@@ -26,12 +26,6 @@ class Board extends Component {
         this.props.place_piece(loc, game, status, you);
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.user && !nextProps.user.auth){
-            this.props.history.push('/');
-        }
-    }
-
     render(){
         if(!this.props.game.playable){
             return <h1 className="text-center text-success">Game Over!</h1>;

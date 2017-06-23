@@ -26,8 +26,24 @@ const ScoreBoard = (props) => {
         <div className="score-container">
             <h2 className="text-center">{props.name}</h2>
             <div className="player-list">
-                <div className={ `player ${props.turn == '1' ? 'active1' : 'inactive'}` }><img src={blueAlien}/>Player 1: {props.player1}</div>
-                <div className={ `player ${props.turn == '2' ? 'active2' : 'inactive'}` }><img src={greenAlien}/>Player 2: {props.player2}</div>
+                <div className={ `player ${props.turn == '1' ? 'active1' : 'inactive'}` }>
+                    <div className="player-name">
+                        <img src={blueAlien}/>Player 1
+                        <div className="player-score">
+                            {props.player1}
+                        </div>
+                    </div>
+                    
+                </div>
+                <div className={ `player ${props.turn == '2' ? 'active2' : 'inactive'}` }>
+                    <div className="player-name">
+                        <img src={greenAlien}/>Player 2
+                        <div className="player-score">
+                            {props.player2}
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     )
