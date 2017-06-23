@@ -57,7 +57,8 @@ class User extends Component {
 
     render(){
         const username = {
-            fontSize: '25px'
+            fontSize: '25px',
+            color: 'white'
         }
         const { auth, error } = this.props;
         const { hideReg } = this.state
@@ -67,11 +68,11 @@ class User extends Component {
                     <Login hidden={auth || !hideReg} />
                     <Signup onClick={() => this.toggleReg(true)}hidden={hideReg} />
                     <p className="text-danger">{error ? `ERROR: ${error}` : ''}</p>
-                    <button onClick={() => this.toggleReg()} className="btn btn-primary" style={this.hideElement(!hideReg) }>Sign Up</button>
+                    <button onClick={() => this.toggleReg()} className="btn btn-outline-success" style={this.hideElement(!hideReg) }>Sign Up</button>
                 </div>
                 <div style={this.hideElement(!auth)}>
                     <p className="text-center" style={username}>User logged in as: <span className="text-success">{this.props.username}</span> {this.props.you ? `| You are Player ${this.props.you}` : ''}</p>
-                    <button onClick={() => { this.logout() }}>Log Out</button>
+                    <button className="btn btn-outline-info" onClick={() => { this.logout() }}>Log Out</button>
                 </div>
             </div>
         )

@@ -51,16 +51,18 @@ class Login extends Component {
     }
     render(){
         return (
-            <form onSubmit={(event)=>this.handleFormSubmit(event)} className="login" style={this.props.hidden ? hide : {}}>
+            <form onSubmit={(event)=>this.handleFormSubmit(event)} className="form-inline row justify-content-center" style={this.props.hidden ? hide : {}}>
                 <input type="email"
                        placeholder="email"
                        value={this.state.form.email}
+                       className="form-control mb-2 mr-sm-2 mb-sm-0"
                        onChange={(event)=>this.handleInputChange(event, 'email')}/>
                 <input type="password"
                        placeholder="password"
                        value={this.state.form.password}
+                       className="form-control mb-2 mr-sm-2 mb-sm-0"
                        onChange={(event)=>this.handleInputChange(event, 'password')}/>
-                <button>LOGIN</button>
+                <button className="btn btn-outline-info">LOGIN</button>
             </form>
         )
     }

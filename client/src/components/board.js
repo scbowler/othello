@@ -21,9 +21,10 @@ class Board extends Component {
     }
     
     createSquare(info, loc){
+        console.log('Info:', info);
         return (
             <div className="board-square" onClick={() => { this.handleClick(loc)}}>
-                <div className={`game-piece piece-${info ? info === true ? 'ghost-' + this.props.game.current : info : 0}`}></div>
+                <div className={`game-piece piece-${info ? info === true ? 'ghost-' + this.props.game.player.current : info : 0}`}></div>
             </div>
         )
     }
@@ -36,6 +37,9 @@ class Board extends Component {
 
     componentWillReceiveProps(nextProps){
         console.log('nextProps.game.playable: ', nextProps.game.playable);
+        if(nextProps.user && !nextProps.user.auth){
+            this.props.history.push('/');
+        }
     }
 
     render(){
