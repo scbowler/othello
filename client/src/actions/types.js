@@ -5,6 +5,8 @@ export default {
     LOG_OUT: 'log_out',
     AUTH_ERROR: 'auth_error',
     CREATE_GAME: 'create_game',
+    JOIN_GAME: 'join_game',
+    RE_JOIN_GAME: 'join_game',
     UPDATE_GAME: 'update_game'
 };
 

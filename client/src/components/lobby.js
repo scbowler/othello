@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { logout, login, getGameList, createGame } from '../actions';
+import * as actions from '../actions';
 import { database } from '../firebase';
 import { auth } from '../firebase';
 
 class Lobby extends Component {
     componentDidMount(){
         console.log('CWM Lobby');
-        if(!this.props.auth){
+        if(!this.props.auth || !auth.currentUser){
             console.log('Not auth:', this.props.auth);
+            console.log('fbAuth:', auth.currentUser);
             this.props.history.push('/');
         } else if(auth.currentUser){
             this.props.login(auth.currentUser);
@@ -29,12 +30,15 @@ class Lobby extends Component {
         }
 
         if(nextProps.gid){
-            this.props.history.push('/game/' + nextProps.gid);
+            this.props.history.push(`/game/${nextProps.gid}`);
         }
     }
 
-    joinGame(id){
-        console.log('Joining game:', id);
+    joinGame(id, game_info){
+        console.log('Join game called');
+        database.ref(`games/${id}`).once('value').then( snap => {
+            this.props.joinGame(snap.val(), game_info);
+        })
     }
 
     createGame(){
@@ -43,6 +47,9 @@ class Lobby extends Component {
     }
 
     buildList(list){
+        if(!list){
+            return <div></div>;
+        }
         console.log('The list', list);
         return Object.keys(list).map((k, i) => {
             if(list[k].num_players == 2){
@@ -54,7 +61,7 @@ class Lobby extends Component {
                 )
             }
             return (
-                <tr style={{cursor: 'pointer'}} className="text-success" key={i} onClick={() => this.joinGame(list[k].game_id)}>
+                <tr style={{cursor: 'pointer'}} className="text-success" key={i} onClick={() => this.joinGame(list[k].game_id, k)}>
                     <td>{list[k].name}</td>
                     <td>{list[k].num_players}</td>
                 </tr>
@@ -70,7 +77,6 @@ class Lobby extends Component {
         
         return (
             <div className="text-center container">
-                <button onClick={this.props.logout}>Log Out</button>
                 <h1>The Lobby</h1>
                 <button onClick={() => this.createGame()} className="btn btn-lg btn-success">Create New Game</button>
                 <table className="table table-striped" style={{fontSize: '28px'}}>
@@ -97,4 +103,4 @@ function mstp(state){
     }
 }
 
-export default withRouter(connect(mstp, {logout, login, getGameList, createGame})(Lobby));
+export default withRouter(connect(mstp, actions)(Lobby));

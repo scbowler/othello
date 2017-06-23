@@ -24,8 +24,8 @@ class User extends Component {
     }
 
     componentDidMount(){
-        const user = auth.currentUser;
-            console.log('Auth state change called');
+        auth.onAuthStateChanged((user) => {
+            console.log('Auth state change called', this.props.location);
             if(user && !this.props.auth){
                 console.log('User logged in', user.displayName);
                 this.props.login(user);
@@ -34,10 +34,11 @@ class User extends Component {
             } else {
                 console.log('User all logged out');
             }
+        })
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.auth){
+        if(nextProps.auth && this.props.location.pathname === '/'){
             this.props.history.push('/lobby');
         }
     }
@@ -69,7 +70,7 @@ class User extends Component {
                     <button onClick={() => this.toggleReg()} className="btn btn-primary" style={this.hideElement(!hideReg) }>Sign Up</button>
                 </div>
                 <div style={this.hideElement(!auth)}>
-                    <p className="text-center" style={username}>User logged in as: <span className="text-success">{this.props.username}</span></p>
+                    <p className="text-center" style={username}>User logged in as: <span className="text-success">{this.props.username}</span> {this.props.you ? `| You are Player ${this.props.you}` : ''}</p>
                     <button onClick={() => { this.logout() }}>Log Out</button>
                 </div>
             </div>
@@ -81,7 +82,8 @@ function mstp(state){
     return {
         auth: state.user.auth,
         username: state.user.username,
-        error: state.user.error
+        error: state.user.error,
+        you: state.game.you
     }
 }
 

@@ -8,8 +8,7 @@ import Board from './board';
 const App = (props) => (
     <div>
         <h1 className="text-center">Othello</h1>
-        
-        <Route exact path="/" component={User}/>
+        <User/>
         <Route path="/lobby" component={Lobby}/>
         <Route path="/game/:id" component={Board}/>
     </div>

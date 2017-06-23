@@ -1,43 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ScoreBoard from './score_board';
-import { place_piece, updateGame } from '../actions';
-import { database } from '../firebase';
+import * as actions from '../actions';
+import { auth, database } from '../firebase';
 import './board.css';
 
 class Board extends Component {
     componentWillMount(){
         console.log('Board CWM:', this.props.match.params.id);
-
         database.ref('games/' + this.props.match.params.id).on('value', snap => {
-            this.props.updateGame(snap.val());
+            console.log('Game CWM in Board:', this.props.gid);
+            if(this.props.gid){
+                console.log('UpdateGame Being Called');
+                this.props.updateGame(snap.val());
+            } else {
+                console.log('JoinGame Being Called');
+                this.props.joinGame(snap.val());
+            }
         })
     }
     
     createSquare(info, loc){
-        console.log('Info:', info === true);
         return (
             <div className="board-square" onClick={() => { this.handleClick(loc)}}>
-                <div className={`game-piece piece-${info ? info === true ? 'ghost-' + this.props.turn : info : 0}`}></div>
+                <div className={`game-piece piece-${info ? info === true ? 'ghost-' + this.props.game.current : info : 0}`}></div>
             </div>
         )
     }
 
     handleClick(loc){
         console.log('Game square clicked:', loc);
-        this.props.place_piece(loc);
+        const { game, status, you} = this.props;
+        this.props.place_piece(loc, game, status, you);
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('nextProps.playable: ', nextProps.playable);
+        console.log('nextProps.game.playable: ', nextProps.game.playable);
     }
 
     render(){
-        if(!this.props.playable){
+        if(!this.props.game.playable){
             return <h1 className="text-center text-success">Game Over!</h1>;
         }
-        const boardHtml = this.props.board.map((row, rowNum) => {
-            console.log('Row data:', row);
+        const boardHtml = this.props.game.board.map((row, rowNum) => {
             const rowOfSq = []
             row.map((sq, colNum) => {
                 rowOfSq.push(this.createSquare(sq, {r: rowNum, c: colNum}));
@@ -60,10 +65,11 @@ class Board extends Component {
 
 function mapStateToProps(state){
     return {
-        board: state.game.board,
-        turn: state.game.players.current,
-        playable: state.game.playable
+        game: state.game.gameState,
+        status: state.game.status,
+        you: state.game.you,
+        gid: state.game.gid
     }
 }
 
-export default connect(mapStateToProps, {place_piece, updateGame})(Board);
+export default connect(mapStateToProps, actions)(Board);
