@@ -1,16 +1,23 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import './app.css';
-import Board from './board';
-import ScoreBoard from './score_board';
 import User from './user';
+import Lobby from './lobby';
+import Board from './board';
 
-const App = () => (
+const App = (props) => (
     <div>
-        <User/>
         <h1 className="text-center">Othello</h1>
-        <ScoreBoard/>
-        <Board/>
+        <User/>
+        <Route path="/lobby" component={Lobby}/>
+        <Route path="/game/:id" component={Board}/>
     </div>
 );
+
+function mstp(state){
+    return {
+        username: state.user.username
+    }
+}
 
 export default App;

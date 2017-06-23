@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { login, sendError } from '../actions';
 
 const hide = {
@@ -40,8 +41,7 @@ class Login extends Component {
             this.props.sendError('Missing Email or Password');
             return;
         }
-        this.props.sendError(null);
-        this.props.login(this.state.form);
+        this.props.login({...form});
         this.setState ({
             form: {
                 email: '',
@@ -66,4 +66,4 @@ class Login extends Component {
     }
 }
 
-export default connect(null, {login, sendError})(Login);
+export default withRouter(connect(null, {login, sendError})(Login));

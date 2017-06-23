@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import * as actions from '../actions';
 import { auth } from '../firebase';
 import Login from './login';
@@ -22,9 +23,9 @@ class User extends Component {
         this.setState({hideReg});
     }
 
-    componentWillMount(){
+    componentDidMount(){
         auth.onAuthStateChanged((user) => {
-            console.log('Auth state change called');
+            console.log('Auth state change called', this.props.location);
             if(user && !this.props.auth){
                 console.log('User logged in', user.displayName);
                 this.props.login(user);
@@ -33,7 +34,13 @@ class User extends Component {
             } else {
                 console.log('User all logged out');
             }
-        });
+        })
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.auth && this.props.location.pathname === '/'){
+            this.props.history.push('/lobby');
+        }
     }
 
     hideElement(hide){
@@ -63,7 +70,7 @@ class User extends Component {
                     <button onClick={() => this.toggleReg()} className="btn btn-primary" style={this.hideElement(!hideReg) }>Sign Up</button>
                 </div>
                 <div style={this.hideElement(!auth)}>
-                    <p className="text-center" style={username}>User logged in as: <span className="text-success">{this.props.username}</span></p>
+                    <p className="text-center" style={username}>User logged in as: <span className="text-success">{this.props.username}</span> {this.props.you ? `| You are Player ${this.props.you}` : ''}</p>
                     <button onClick={() => { this.logout() }}>Log Out</button>
                 </div>
             </div>
@@ -75,8 +82,9 @@ function mstp(state){
     return {
         auth: state.user.auth,
         username: state.user.username,
-        error: state.user.error
+        error: state.user.error,
+        you: state.game.you
     }
 }
 
-export default connect(mstp, actions)(User);
+export default withRouter(connect(mstp, actions)(User));

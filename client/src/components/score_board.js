@@ -46,10 +46,10 @@ const ScoreBoard = (props) => {
 
 function mapStateToProps(state){
     return {
-        player1: state.game.game.board.tally['1'],
-        player2: state.game.game.board.tally['2'],
-        turn: state.game.game.players.current,
-        playable: state.game.game.playable
+        player1: state.game.gameState.tally['1'],
+        player2: state.game.gameState.tally['2'],
+        turn: state.game.gameState.player.current,
+        playable: state.game.gameState.playable
     }
 }
 
