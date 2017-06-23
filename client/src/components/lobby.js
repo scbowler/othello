@@ -72,13 +72,14 @@ class Lobby extends Component {
     render(){
         const tableHeaders = {
             textAlign: 'center',
-            fontSize: '32px'
+            fontSize: '32px',
+            color: 'white'
         }
         
         return (
             <div className="text-center container">
                 <h1>The Lobby</h1>
-                <button onClick={() => this.createGame()} className="btn btn-lg btn-success">Create New Game</button>
+                <button onClick={() => this.createGame()} className="btn btn-lg btn-outline-success">Create New Game</button>
                 <table className="table table-striped" style={{fontSize: '28px'}}>
                     <thead>
                         <tr>

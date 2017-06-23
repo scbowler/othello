@@ -66,25 +66,29 @@ class Signup extends Component {
 
     render(){
         return(
-            <form onSubmit={(event)=>this.handleFormSubmit(event)} className="signup" style={this.props.hidden ? hide : {}}>
+            <form onSubmit={(event)=>this.handleFormSubmit(event)} className="form-inline row justify-content-center" style={this.props.hidden ? hide : {}}>
                 <input type="text"
                     placeholder="username"
                     value={this.state.form.username}
+                    className="form-control mb-2 mr-sm-2 mb-sm-0"
                     onChange={(event)=>this.handleInputChange(event, 'username')}/>
                 <input type="email"
                     placeholder="email" 
-                    value={this.state.form.email} 
+                    value={this.state.form.email}
+                    className="form-control mb-2 mr-sm-2 mb-sm-0"
                     onChange={(event)=>this.handleInputChange(event, 'email')}/>
                 <input type="password"
                     placeholder="password" 
                     value={this.state.form.password}
+                    className="form-control mb-2 mr-sm-2 mb-sm-0"
                     onChange={(event)=>this.handleInputChange(event, 'password')}/>
                 <input type="password"
                     placeholder="retype password"
                     value={this.state.form.verifyPw}
+                    className="form-control mb-2 mr-sm-2 mb-sm-0"
                     onChange={(event)=>this.handleInputChange(event, 'verifyPw')}/>
-                <button>SIGN UP DOOD</button>
-                <button type="button" className="btn btn-danger" onClick={() => this.cancelForm()}>Cancel</button>
+                <button className="btn btn-outline-info">SIGN UP DOOD</button>
+                <button type="button" className="btn btn-outline-danger" onClick={() => this.cancelForm()}>Cancel</button>
             </form>
         )
     }

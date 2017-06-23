@@ -45,7 +45,7 @@
     top: 10%;
     left: 10%;
     transition-duration: 500ms;
-    animation-duration: 300ms;
+    animation-duration: 600ms;
 }
 
 .piece-0 {
@@ -77,6 +77,6 @@
 }
 
 @keyframes drop {
-    from {top: -10%}
+    from {top: -25%}
     to {top: 10%}
 }
