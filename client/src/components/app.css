@@ -1,43 +1,19 @@
-.app {
-    background-color: #000;
-    color: #fff;
-    padding: 50px;
+body {
+    background: url("images/background.jpg") no-repeat;
+    background-size: cover;
+}
+
+h1{
+    color: white;
+}
+
+.logo{
     text-align: center;
+    display: block;
+    margin: auto;
 }
 
-.app img {
-    height: 100px;
-}
-
-.rotate {
-    animation: spin 10s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.login{
+.center{
+    width: 95%;
     text-align: center;
-    padding: 1em;
-    border: 1px double black;
-}
-
-.login > *{
-    margin: 1em;
-}
-
-.signup{
-    text-align: center;
-    padding: 1em;
-    border: 1px double black;
-}
-
-.login > * {
-    margin: 1em;
 }

@@ -54,10 +54,10 @@ class Board extends Component {
         console.log('BoardHtml:', boardHtml);
         return (
             <div>
-                <ScoreBoard/>
                 <div className="board-container">
                     {boardHtml}
                 </div>
+                <ScoreBoard/>
             </div>
         )
     }
