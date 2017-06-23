@@ -6,25 +6,47 @@ import { database } from '../firebase';
 import { auth } from '../firebase';
 
 class Lobby extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            viewNameGame: false,
+            newGameVal: '',
+            error: '',
+            nameValid: true
+        }
+
+        this.minNameLength = 4;
+    }
+
+    toggleNewBtn(){
+        this.setState({
+            viewNameGame: !this.state.viewNameGame
+        });
+    }
+
+    handleChange(e){
+        const { value } = e.target;
+        const newState = {
+            newGameVal: value,
+            error: value.length >= this.minNameLength || value === '' ? false : 'Name too short'
+        };
+
+        this.setState(newState);
+    }
+
     componentDidMount(){
-        console.log('CWM Lobby');
-        if(!this.props.auth || !auth.currentUser){
-            console.log('Not auth:', this.props.auth);
-            console.log('fbAuth:', auth.currentUser);
-            this.props.history.push('/');
-        } else if(auth.currentUser){
+        if(auth.currentUser){
             this.props.login(auth.currentUser);
             database.ref('game_list').on('value', (snap) =>{
-                console.log('FB listener called')
                 this.props.getGameList(snap.val());
             });
         } else {
-            console.log('*^#&@*&#$@');
+            console.warn('*^#&@*&#$@');
         }
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('CWRP Lobby');
         if(!nextProps.auth){
             this.props.history.push('/');
         }
@@ -35,22 +57,41 @@ class Lobby extends Component {
     }
 
     joinGame(id, game_info){
-        console.log('Join game called');
         database.ref(`games/${id}`).once('value').then( snap => {
             this.props.joinGame(snap.val(), game_info);
         })
     }
 
-    createGame(){
-        console.log('Create game clicked');
-        this.props.createGame();
+    createGame(e){
+        if(e){
+            e.preventDefault();
+        }
+
+        const { newGameVal } = this.state;
+        const empty = newGameVal === '';
+        
+        if(!empty && newGameVal.length >= this.minNameLength){
+            this.props.createGame(newGameVal);
+            this.setState({
+                viewNameGame: false,
+                newGameVal: ''
+            });
+        } else {
+            const error = empty ? 'Please enter a game name' : `Game name must be at least ${this.minNameLength} characters`;
+            this.setState({error});
+        }
     }
 
     buildList(list){
         if(!list){
-            return <div></div>;
+            const noGames = {
+                color: 'white',
+                fontSize: '1.5em',
+                backgroundColor: 'rgba(0, 0, 0, .3)'
+            }
+            return <tr><td style={noGames} colSpan="2">No Available Games</td></tr>;
         }
-        console.log('The list', list);
+    
         return Object.keys(list).map((k, i) => {
             if(list[k].num_players == 2){
                 return (
@@ -75,11 +116,33 @@ class Lobby extends Component {
             fontSize: '32px',
             color: 'white'
         }
+        const hide = {
+            display: 'none'
+        }
+        const errorStyle = {
+            backgroundColor: 'rgba(0, 0, 0, .8)',
+            padding: '10px 20px'
+        }
+        const { viewNameGame, error } = this.state;
         
         return (
             <div className="text-center container">
                 <h1>The Lobby</h1>
-                <button onClick={() => this.createGame()} className="btn btn-lg btn-outline-success">Create New Game</button>
+                <div>
+                    <button onClick={() => viewNameGame ? this.createGame() : this.toggleNewBtn() } className="btn btn-lg btn-outline-success mb-3">{ viewNameGame ? 'Start Game' : 'Create New Game'}</button>
+                    <form style={viewNameGame ? {} : hide} className="form row justify-content-center" onSubmit={(e) => this.createGame(e)}>
+                        <div className={`form-group ${ error ? 'has-danger' : ''}`}>
+                            <input
+                                style={{width: '410px'}}
+                                onChange={e => this.handleChange(e)}
+                                value={this.state.newGameVal}
+                                className={`form-control mb-3 ${ error ? 'form-control-danger' : ''}`}
+                                placeholder="Enter Game Name"
+                            />
+                            <div style={ error ? errorStyle : {} } className="form-control-feedback">{error}</div>
+                        </div>
+                    </form>
+                </div>
                 <table className="table table-striped" style={{fontSize: '28px'}}>
                     <thead>
                         <tr>

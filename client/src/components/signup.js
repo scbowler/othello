@@ -24,29 +24,15 @@ class Signup extends Component {
     handleInputChange(changeEvent, inputType){
         const {value} = changeEvent.target;
         const {form} = this.state;
-        let newFormState = {};
-        switch(inputType){
-            case 'username':
-                newFormState = {...form, username: value};
-                break;
-            case 'email':
-                newFormState = {...form, email: value};
-                break;
-            case 'password':
-                newFormState = {...form, password: value};
-                break;
-            case 'verifyPw':
-                newFormState = {...form, verifyPw: value};
-                break;
-            default:
-                return;
-        }
+        
+        const newFormState = {...form};
+        newFormState[inputType] = value;
+        
         this.setState({form: newFormState});
     }
 
     handleFormSubmit(formEvent){
         formEvent.preventDefault();
-        console.log(this.state.form);
         const { form } = this.state;
         if(form.username === '' || form.email ==='' || form.password === '' || form.verifyPw === ''){
             this.props.sendError('Form is not complete');
@@ -55,7 +41,6 @@ class Signup extends Component {
 
         this.props.createAccount(this.state.form);
         this.setState(this.defaultState);
-        
     }
 
     cancelForm(){

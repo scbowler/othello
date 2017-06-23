@@ -20,22 +20,14 @@ class Login extends Component {
     handleInputChange(changeEvent, inputType){
         const {value} = changeEvent.target;
         const {form} = this.state;
-        let newFormState = {};
-        switch (inputType){
-            case 'email':
-                newFormState = {...form, email: value};
-                break;
-            case 'password':
-                newFormState = {...form, password: value};
-                break;
-            default:
-                return;
-        }
+        
+        const newFormState = {...form};
+        newFormState[inputType] = value;
+        
         this.setState({form: newFormState});
     }
     handleFormSubmit(formEvent){
         formEvent.preventDefault();
-        console.log(this.state.form);
         const { form } = this.state;
         if(form.email === '' || form.password === ''){
             this.props.sendError('Missing Email or Password');
