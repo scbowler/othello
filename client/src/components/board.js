@@ -12,6 +12,12 @@ class Board extends Component {
             this.props.gid ? this.props.updateGame(snap.val()) : this.props.joinGame(snap.val());
         });
     }
+
+    componentWillReceiveProps(nextProps){
+        if(!nextProps.gid){
+            this.props.history.push('/lobby');
+        }
+    }
     
     createSquare(info, loc){
         return (
@@ -26,9 +32,32 @@ class Board extends Component {
         this.props.place_piece(loc, game, status, you);
     }
 
+    endingScore(){
+        const { players } = this.props;
+        const { tally } = this.props.game;
+        if(!tally){
+            return (
+                <tr></tr>
+            )
+        }
+        return Object.keys(players).map((k, i) => {
+            const player = players[k];
+            return (
+                <tr key={i}>
+                    <td>{player.displayName}</td>
+                    <td>{tally[player.player]}</td>
+                </tr>
+            )
+        });
+    }
+
     render(){
         if(!this.props.game.playable){
-            return <h1 className="text-center text-success">Game Over!</h1>;
+            return (
+                <div className="row">
+                    <h1 className="text-center text-success">Game Over!</h1>
+                </div>
+            );
         }
         const boardHtml = this.props.game.board.map((row, rowNum) => {
             const rowOfSq = [];
@@ -41,10 +70,11 @@ class Board extends Component {
 
         return (
             <div className="game-container">
+                {this.props.game.playable ? '' : <h1>Game Over!</h1>}
                 <div className="board-container">
                     {boardHtml}
                 </div>
-                <ScoreBoard/>
+                {Object.keys(this.props.players).length > 1 ? <ScoreBoard/> : <h3>Waiting on other player</h3>}
             </div>
         )
     }
@@ -53,7 +83,7 @@ class Board extends Component {
 function mapStateToProps(state){
     return {
         game: state.game.gameState,
-        status: state.game.status,
+        players: state.game.players,
         you: state.game.you,
         gid: state.game.gid
     }

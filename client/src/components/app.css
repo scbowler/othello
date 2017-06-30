@@ -12,6 +12,18 @@ h1{
     text-align: center;
     display: block;
     margin: auto;
+    width: 100vw;
+    max-width: 500px;
+}
+
+td>span.rejoin {
+    color: #5cb85c
+}
+
+td>span.rejoin:hover {
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /*.center{*/

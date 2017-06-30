@@ -1,11 +1,11 @@
 import types from '../actions/types';
 
-const DEFAULT_STATE = { auth: null, username: null, error: null };
+const DEFAULT_STATE = { auth: null, username: null, uid: null, error: null };
 
 export default function(state = DEFAULT_STATE, action){
     switch(action.type){
         case types.LOG_IN:
-            return { auth: true, username: action.username, error: null };
+            return { auth: true, username: action.username, uid: action.uid, error: null };
         case types.LOG_OUT:
             return {...DEFAULT_STATE};
         case types.AUTH_ERROR:

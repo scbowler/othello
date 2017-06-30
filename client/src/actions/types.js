@@ -6,7 +6,8 @@ export default {
     AUTH_ERROR: 'auth_error',
     CREATE_GAME: 'create_game',
     JOIN_GAME: 'join_game',
-    RE_JOIN_GAME: 'join_game',
-    UPDATE_GAME: 'update_game'
+    RE_JOIN_GAME: 're_join_game',
+    UPDATE_GAME: 'update_game',
+    LEAVE_GAME: 'leave_game'
 };
 

@@ -62,6 +62,11 @@ class Lobby extends Component {
         })
     }
 
+    rejoin(game, uid){
+        console.log('Re Join Game');
+        this.props.rejoin(game, uid)
+    }
+
     createGame(e){
         if(e){
             e.preventDefault();
@@ -82,6 +87,13 @@ class Lobby extends Component {
         }
     }
 
+    renderRejoin(text, inGame, data){
+        if(inGame){
+            return <td>{text} | <span className="rejoin" onClick={() => this.rejoin(data)}>Re Join</span></td>
+        }
+        return <td>{text}</td>
+    }
+
     buildList(list){
         if(!list){
             const noGames = {
@@ -93,24 +105,28 @@ class Lobby extends Component {
         }
     
         return Object.keys(list).map((k, i) => {
+            let playerInGame = !!(list[k].players[this.props.uid]);
+            console.log('Keys are:', playerInGame);
             if(list[k].num_players == 2){
                 return (
                     <tr key={i} className="text-muted">
                         <td>{list[k].name}</td>
-                        <td>Full</td>
+                        {this.renderRejoin('Full', playerInGame, {gameData: list[k], uid: this.props.uid})}
                     </tr>
                 )
             }
             return (
-                <tr style={{cursor: 'pointer'}} className="text-success" key={i} onClick={() => this.joinGame(list[k].game_id, k)}>
-                    <td>{list[k].name}</td>
-                    <td>{list[k].num_players}</td>
+                <tr className="text-success" key={i} >
+                    <td style={{cursor: 'pointer'}} onClick={() => this.joinGame(list[k].game_id, k)}>{list[k].name}</td>
+                    {this.renderRejoin(list[k].num_players, playerInGame, {gameData: list[k], uid: this.props.uid})}
                 </tr>
             )
         })
     }
 
     render(){
+        console.log('Game List:', this.props.list);
+        console.log('User ID:', this.props.uid);
         const tableHeaders = {
             textAlign: 'center',
             fontSize: '32px',
@@ -162,6 +178,7 @@ class Lobby extends Component {
 function mstp(state){
     return {
         auth: state.user.auth,
+        uid: state.user.uid,
         list: state.game.list,
         gid: state.game.gid
     }
