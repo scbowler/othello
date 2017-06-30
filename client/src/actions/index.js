@@ -51,7 +51,7 @@ export function updateGame(game) {
 export function joinGame(game, info_key){
     
     return dispatch => {
-        const { uid } = auth.currentUser;
+        const { uid, displayName } = auth.currentUser;
         const { players, state: { id } } = game;
         const playerIds = Object.keys(players);
 
@@ -59,14 +59,19 @@ export function joinGame(game, info_key){
             if(playerIds.indexOf(uid) === -1){
                 
                 const playersUpdate = {};
-                playersUpdate[`games/${id}/players/${uid}`] = 2;
+                const player2Data = {
+                    player: 2,
+                    displayName
+                };
+                playersUpdate[`games/${id}/players/${uid}`] = player2Data;
                 database.ref().update(playersUpdate).then(() => {
 
                     const update = {};
                     update[`game_list/${info_key}/num_players`] = 2;
+                    update[`game_list/${info_key}/players/${uid}`] = player2Data;
                     database.ref().update(update);
                     game.you = 2;
-                    game.players[uid] = 2;
+                    game.players[uid] = player2Data;
                     dispatch({
                         type: types.JOIN_GAME,
                         payload: game
@@ -74,14 +79,23 @@ export function joinGame(game, info_key){
                     return;
                 })
             } else {
-                console.warn('Player already in game');
+                console.warn('Player already in game, rejoining');
+                const payload = game;
+                payload.you = game.players[uid].player
+                payload.gid = id;
+
+                dispatch({
+                    type: types.RE_JOIN_GAME,
+                    payload
+                });
+                return;
             }
         } else {
             console.log('Game full');
             if(playerIds.indexOf(uid) !== -1){
                 console.log('Player in full game', game);
                 const payload = game;
-                payload.you = game.players[uid];
+                payload.you = game.players[uid].player;
                 payload.gid = id;
 
                 dispatch({
@@ -97,6 +111,36 @@ export function joinGame(game, info_key){
     }
 }
 
+export function leaveGame(){
+    return {
+        type: types.LEAVE_GAME
+    }
+}
+
+export function rejoin({gameData, uid}){
+    return dispatch => {
+        console.log('Rejoin:', gameData, 'UID:', uid);
+
+        const { players, name, game_id } = gameData;
+        if(players[uid]){
+            const payload = {};
+            payload.you = players[uid].player;
+            payload.name = name;
+            payload.gid = game_id;
+            payload.players = players;
+
+            dispatch({
+                type: types.RE_JOIN_GAME,
+                payload
+            });
+            return;
+        }
+
+        console.log('Player can\'t join, not in game');
+        dispatch({type: 'idk'});
+    }
+}
+
 export function createGame(name){
     return dispatch => {
         const game = new Game([1, 2], {});
@@ -104,12 +148,16 @@ export function createGame(name){
         const newGame = { state, players: {}, name };
         const { id } = newGame.state;
 
-        newGame.players[auth.currentUser.uid] = 1;
+        newGame.players[auth.currentUser.uid] = {
+            player: 1,
+            displayName: auth.currentUser.displayName
+        };
 
         database.ref('games/' + id).set(newGame).then(() => {
             const game_info = {
                 game_id: id,
                 num_players: 1,
+                players: newGame.players,
                 name
             }
             database.ref('game_list').push(game_info).then(() => {
@@ -138,7 +186,7 @@ export function createAccount(userInfo){
             resp.updateProfile({
                 displayName: userInfo.username
             }).then(() => {
-                dispatch({type: types.LOG_IN, username: userInfo.username});
+                dispatch({type: types.LOG_IN, username: userInfo.username, uid: resp.uid});
             }).catch((e) => {
                 console.warn('Error updating DisplayName:', e);
             })
@@ -153,7 +201,7 @@ export function createAccount(userInfo){
     }
 }
 
-export function login({displayName, email, password}){
+export function login({displayName, email, password, uid}){
 
     return function(dispatch){
         const error = {
@@ -164,7 +212,8 @@ export function login({displayName, email, password}){
         if(!password){
             dispatch({
                 type: types.LOG_IN,
-                username: displayName
+                username: displayName,
+                uid
             });
             return;
         }
@@ -172,7 +221,8 @@ export function login({displayName, email, password}){
             auth.signInWithEmailAndPassword(email, password).then(user => {
                 dispatch({
                     type: types.LOG_IN,
-                    username: user.displayName
+                    username: user.displayName,
+                    uid: user.uid
                 });
             }).catch((e) => {
                 console.warn('Error logging in:', e);
